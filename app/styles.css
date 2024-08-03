@@ -1,0 +1,57 @@
+/* General Container Styling */
+.container {
+    margin-top: 20px;
+  }
+  
+  /* Modal Styling */
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    border: 2px solid #000;
+    box-shadow: 24px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Text Field Styling */
+  .text-field {
+    flex-grow: 1;
+  }
+  
+  /* Search and Button Styling */
+  .search {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Inventory Item Styling */
+  .inventory-item {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .item-name {
+    font-weight: bold;
+  }
+  
+  .item-quantity {
+    margin-left: 20px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
