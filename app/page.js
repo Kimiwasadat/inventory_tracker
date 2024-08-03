@@ -148,7 +148,7 @@ export default function Home() {
       </Modal>
       <Box mt={4}>
         <Typography variant="h4" gutterBottom>
-          Inventory Items
+        PantryPal
         </Typography>
         <Stack spacing={2}>
           {inventory.map(({ name, quantity }) => (
