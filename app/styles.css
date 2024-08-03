@@ -11,6 +11,23 @@ body {
   background-color: #006400; /* Dark green */
 }
 
+.appbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: center;
+}
+
+.appbar-title {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
 /* Buttons */
 .MuiButton-containedPrimary {
   background-color: #006400; /* Dark green */
@@ -36,15 +53,35 @@ body {
   border: 1px solid #006400; /* Dark green border */
 }
 
-.search button {
+.search-button {
   background-color: #8B0000; /* Dark red */
+  width: 150px; /* Adjust width to fit text */
+}
+
+.add-item-button {
+  margin-left: 10px; /* Move the add item button a bit to the right */
+}
+
+/* Inventory Header */
+.inventory-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  padding: 16px;
+  background-color: #006400; /* Dark green */
+  color: white;
+  border: 1px solid #006400; /* Dark green border */
+  text-align: center;
 }
 
 /* Inventory Items */
 .inventory-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  align-items: center;
   background-color: #fff; /* White background */
   border: 1px solid #006400; /* Dark green border */
   padding: 16px;
+  text-align: center;
 }
 
 .item-name {
@@ -53,4 +90,9 @@ body {
 
 .item-quantity {
   color: #006400; /* Dark green */
+}
+
+.increment-input {
+  width: 60px;
+  margin: 0 auto;
 }

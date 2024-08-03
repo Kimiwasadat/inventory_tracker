@@ -15,6 +15,7 @@ export default function Home() {
   const [itemName, setItemName] = useState('');
   const [searchResult, setSearchResult] = useState('');
   const [searchItemName, setSearchItemName] = useState('');
+  const [incrementValues, setIncrementValues] = useState({});
 
   const updateInventory = async () => {
     const snapshot = query(collection(firestore, 'inventory'));
@@ -29,34 +30,27 @@ export default function Home() {
     setInventory(inventoryList);
   };
 
+  const handleIncrementChange = (item, value) => {
+    setIncrementValues(prev => ({ ...prev, [item]: value }));
+  };
+
+  const getIncrementValue = (item) => {
+    return incrementValues[item] ? parseInt(incrementValues[item]) || 1 : 1;
+  };
+
   const addItem = async (item) => {
     if (!item) {
       alert("Item name cannot be empty");
       return;
-    }    
-    const docRef = doc(collection(firestore, "inventory"), item);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const { quantity } = docSnap.data();
-      await setDoc(docRef, { quantity: quantity + 1 });
-    } else {
-      await setDoc(docRef, { quantity: 1 });
     }
-    await updateInventory();
-  };
-
-  const searchItem = async (item) => {
-    if (!item) {
-      alert("Item name cannot be empty");
-      return;
-    }    
+    const increment = getIncrementValue(item);
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const { quantity } = docSnap.data();
-      setSearchResult(`${item} found with quantity: ${quantity}`);
+      await setDoc(docRef, { quantity: quantity + increment });
     } else {
-      setSearchResult(`${item} not found`);
+      await setDoc(docRef, { quantity: increment });
     }
     await updateInventory();
   };
@@ -65,18 +59,17 @@ export default function Home() {
     if (!item) {
       alert("Item name cannot be empty");
       return;
-    }    
+    }
+    const decrement = getIncrementValue(item);
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const { quantity } = docSnap.data();
-      if (quantity === 1) {
+      if (quantity <= decrement) {
         await deleteDoc(docRef);
       } else {
-        await setDoc(docRef, { quantity: quantity - 1 });
+        await setDoc(docRef, { quantity: quantity - decrement });
       }
-    } else {
-      await setDoc(docRef, { quantity: quantity - 1 });
     }
     await updateInventory();
   };
@@ -90,30 +83,31 @@ export default function Home() {
 
   return (
     <Container maxWidth="md">
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Image src="/logo.png" alt="Logo" width={150} height={150} />
+        <Image src="/logo.png" alt="Logo" width={150} height={150} />
+      </Box>
       <AppBar position="static" color="primary">
-        <Toolbar>
-          <Image src="/mnt/data/logo.png" alt="Logo" width={50} height={50} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: 2 }}>
+        <Toolbar className="toolbar">
+          <Typography variant="h6" component="div" className="appbar-title">
             JinishJatra
           </Typography>
-          <IconButton edge="end" color="inherit" onClick={handleOpen}>
-            <AddIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Box mt={4} display="flex" alignItems="center" justifyContent="center">
         <Stack direction="row" spacing={2} className="search">
-          <TextField 
+          <TextField
             label="Search Item"
-            variant="outlined" 
+            variant="outlined"
             fullWidth
             value={searchItemName}
             onChange={(f) => setSearchItemName(f.target.value)}
           />
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             color="primary"
             startIcon={<SearchIcon />}
+            className="search-button"
             onClick={() => {
               searchItem(searchItemName);
               handleClose();
@@ -121,21 +115,30 @@ export default function Home() {
           >
             Search
           </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            className="add-item-button"
+            onClick={handleOpen}
+          >
+            Add Item
+          </Button>
         </Stack>
       </Box>
       <Modal open={open} onClose={handleClose}>
         <Box className="modal">
           <Typography variant="h6">Add Item</Typography>
           <Stack direction="row" spacing={2}>
-            <TextField 
+            <TextField
               label="Add Item"
-              variant="outlined" 
+              variant="outlined"
               fullWidth
               value={itemName}
               onChange={(e) => setItemName(e.target.value)}
             />
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               color="primary"
               onClick={() => {
                 addItem(itemName);
@@ -152,20 +155,41 @@ export default function Home() {
         <Typography variant="h4" gutterBottom>
           Inventory Items
         </Typography>
+        <Box className="inventory-header">
+          <Typography variant="body1" align="center">Name of Item</Typography>
+          <Typography variant="body1" align="center">Amount of Item</Typography>
+          <Typography variant="body1" align="center">Increment</Typography>
+          <Typography variant="body1" align="center">Actions</Typography>
+        </Box>
         <Stack spacing={2}>
           {inventory.map(({ name, quantity }) => (
             <Box key={name} className="inventory-item">
-              <Typography variant="h6" className="item-name">
+              <Typography variant="h6" className="item-name" align="center">
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </Typography>
-              <Typography variant="body1" className="item-quantity">
-                Quantity: {quantity}
+              <Typography variant="body1" className="item-quantity" align="center">
+                {quantity}
               </Typography>
-              <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="secondary" onClick={() => addItem(name)}>
+              <TextField
+                className="increment-input"
+                type="number"
+                defaultValue={1}
+                inputProps={{ min: 1 }}
+                onChange={(e) => handleIncrementChange(name, e.target.value)}
+              />
+              <Stack direction="row" spacing={2} justifyContent="center">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => addItem(name)}
+                >
                   Add
                 </Button>
-                <Button variant="contained" color="error" onClick={() => removeItem(name)}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => removeItem(name)}
+                >
                   Remove
                 </Button>
               </Stack>
@@ -173,7 +197,7 @@ export default function Home() {
           ))}
         </Stack>
       </Box>
-      {searchResult && <Typography variant="h5" mt={4}>{searchResult}</Typography>}
+      {searchResult && <Typography variant="h5" mt={4} align="center">{searchResult}</Typography>}
     </Container>
   );
 }
