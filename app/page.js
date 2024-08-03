@@ -1,4 +1,6 @@
-'use client';
+"use client"; // Add this line at the very top
+
+import Image from "next/image";
 import { useState, useEffect } from 'react';
 import { firestore } from '@/firebase';
 import { Box, Modal, Typography, Stack, TextField, Button, Container, AppBar, Toolbar, IconButton } from '@mui/material';
@@ -13,13 +15,6 @@ export default function Home() {
   const [itemName, setItemName] = useState('');
   const [searchResult, setSearchResult] = useState('');
   const [searchItemName, setSearchItemName] = useState('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Only run on the client side
-      updateInventory();
-    }
-  }, []);
 
   const updateInventory = async () => {
     const snapshot = query(collection(firestore, 'inventory'));
@@ -38,7 +33,7 @@ export default function Home() {
     if (!item) {
       alert("Item name cannot be empty");
       return;
-    }
+    }    
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -54,7 +49,7 @@ export default function Home() {
     if (!item) {
       alert("Item name cannot be empty");
       return;
-    }
+    }    
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -70,7 +65,7 @@ export default function Home() {
     if (!item) {
       alert("Item name cannot be empty");
       return;
-    }
+    }    
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -80,9 +75,15 @@ export default function Home() {
       } else {
         await setDoc(docRef, { quantity: quantity - 1 });
       }
+    } else {
+      await setDoc(docRef, { quantity: quantity - 1 });
     }
     await updateInventory();
   };
+
+  useEffect(() => {
+    updateInventory();
+  }, []);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -91,8 +92,9 @@ export default function Home() {
     <Container maxWidth="md">
       <AppBar position="static" color="primary">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Inventory Management
+          <Image src="/mnt/data/logo.png" alt="Logo" width={50} height={50} />
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: 2 }}>
+            JinishJatra
           </Typography>
           <IconButton edge="end" color="inherit" onClick={handleOpen}>
             <AddIcon />
@@ -148,7 +150,7 @@ export default function Home() {
       </Modal>
       <Box mt={4}>
         <Typography variant="h4" gutterBottom>
-        PantryPal
+          Inventory Items
         </Typography>
         <Stack spacing={2}>
           {inventory.map(({ name, quantity }) => (

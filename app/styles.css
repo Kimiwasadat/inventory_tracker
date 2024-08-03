@@ -1,57 +1,56 @@
-/* General Container Styling */
-.container {
-    margin-top: 20px;
-  }
-  
-  /* Modal Styling */
-  .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    background-color: white;
-    border: 2px solid #000;
-    box-shadow: 24px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Text Field Styling */
-  .text-field {
-    flex-grow: 1;
-  }
-  
-  /* Search and Button Styling */
-  .search {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  /* Inventory Item Styling */
-  .inventory-item {
-    padding: 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .item-name {
-    font-weight: bold;
-  }
-  
-  .item-quantity {
-    margin-left: 20px;
-  }
-  
-  .action-buttons {
-    display: flex;
-    gap: 10px;
-  }
-  
+/* styles.css */
+
+/* Body */
+body {
+  background-color: #F5F5DC; /* Beige background */
+  color: #333; /* General text color */
+}
+
+/* AppBar */
+.MuiAppBar-colorPrimary {
+  background-color: #006400; /* Dark green */
+}
+
+/* Buttons */
+.MuiButton-containedPrimary {
+  background-color: #006400; /* Dark green */
+}
+
+.MuiButton-containedSecondary {
+  background-color: #8B0000; /* Dark red */
+}
+
+.MuiButton-containedError {
+  background-color: #8B0000; /* Dark red */
+}
+
+/* Modal */
+.modal {
+  background-color: #F5F5DC; /* Beige background */
+  border: 2px solid #8B0000; /* Dark red border */
+  padding: 16px;
+}
+
+/* Search Bar */
+.search input {
+  border: 1px solid #006400; /* Dark green border */
+}
+
+.search button {
+  background-color: #8B0000; /* Dark red */
+}
+
+/* Inventory Items */
+.inventory-item {
+  background-color: #fff; /* White background */
+  border: 1px solid #006400; /* Dark green border */
+  padding: 16px;
+}
+
+.item-name {
+  color: #8B0000; /* Dark red */
+}
+
+.item-quantity {
+  color: #006400; /* Dark green */
+}
