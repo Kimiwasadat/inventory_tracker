@@ -14,25 +14,18 @@ export default function Home() {
   const [searchResult, setSearchResult] = useState('');
   const [searchItemName, setSearchItemName] = useState('');
 
-  useEffect(() => {
-    const updateInventory = async () => {
-      const snapshot = query(collection(firestore, 'inventory'));
-      const docs = await getDocs(snapshot);
-      const inventoryList = [];
-      docs.forEach((doc) => {
-        inventoryList.push({
-          name: doc.id,
-          ...doc.data(),
-        });
+  const updateInventory = async () => {
+    const snapshot = query(collection(firestore, 'inventory'));
+    const docs = await getDocs(snapshot);
+    const inventoryList = [];
+    docs.forEach((doc) => {
+      inventoryList.push({
+        name: doc.id,
+        ...doc.data(),
       });
-      setInventory(inventoryList);
-    };
-
-    // Only run this effect in the client
-    if (typeof window !== 'undefined') {
-      updateInventory();
-    }
-  }, []);
+    });
+    setInventory(inventoryList);
+  };
 
   const addItem = async (item) => {
     const docRef = doc(collection(firestore, "inventory"), item);
@@ -73,6 +66,10 @@ export default function Home() {
     }
     await updateInventory();
   };
+
+  useEffect(() => {
+    updateInventory();
+  }, []);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
