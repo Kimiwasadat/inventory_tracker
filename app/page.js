@@ -28,6 +28,10 @@ export default function Home() {
   };
 
   const addItem = async (item) => {
+    if (!item) {
+      alert("Item name cannot be empty");
+      return;
+    }    
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -40,6 +44,10 @@ export default function Home() {
   };
 
   const searchItem = async (item) => {
+    if (!item) {
+      alert("Item name cannot be empty");
+      return;
+    }    
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -52,6 +60,10 @@ export default function Home() {
   };
 
   const removeItem = async (item) => {
+    if (!item) {
+      alert("Item name cannot be empty");
+      return;
+    }    
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
