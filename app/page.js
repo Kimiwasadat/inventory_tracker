@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from 'react';
 import { firestore } from '@/firebase';
-import { Box, Modal, Typography, Stack, TextField, Button, Container, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Modal, Typography, Stack, TextField, Button, Container, AppBar, Toolbar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { collection, deleteDoc, getDocs, query, getDoc, doc, setDoc } from 'firebase/firestore';
@@ -141,6 +141,11 @@ export default function Home() {
           </Button>
         </Stack>
       </Box>
+      {searchResult && (
+        <Box mt={2} display="flex" justifyContent="center">
+          <Typography variant="h6">{searchResult}</Typography>
+        </Box>
+      )}
       <Modal open={open} onClose={handleClose}>
         <Box className="modal">
           <Typography variant="h6">Add Item</Typography>
