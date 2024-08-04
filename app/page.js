@@ -217,7 +217,7 @@ export default function Home() {
           ))}
         </Stack>
       </Box>
-      {searchResult && <Typography variant="h5" mt={4} align="center">{searchResult}</Typography>}
+      
     </Container>
   );
 }
