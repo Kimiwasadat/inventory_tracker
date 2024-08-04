@@ -43,6 +43,7 @@ export default function Home() {
       alert("Item name cannot be empty");
       return;
     }
+    item = item.toLowerCase();
     const increment = getIncrementValue(item);
     const docRef = doc(collection(firestore, "inventory"), item);
     const docSnap = await getDoc(docRef);
@@ -79,7 +80,7 @@ export default function Home() {
       alert("Item name cannot be empty");
       return;
     }
-    const docRef = doc(collection(firestore, "inventory"), item);
+    const docRef = doc(collection(firestore, "inventory"), item.toLowerCase());
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const { quantity } = docSnap.data();
@@ -116,7 +117,7 @@ export default function Home() {
             variant="outlined"
             fullWidth
             value={searchItemName}
-            onChange={(f) => setSearchItemName(f.target.value)}
+            onChange={(f) => setSearchItemName((f.target.value).toLowerCase())}
           />
           <Button
             variant="contained"
