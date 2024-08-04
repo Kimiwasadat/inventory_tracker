@@ -74,6 +74,21 @@ export default function Home() {
     await updateInventory();
   };
 
+  const searchItem = async (item) => {
+    if (!item) {
+      alert("Item name cannot be empty");
+      return;
+    }
+    const docRef = doc(collection(firestore, "inventory"), item);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const { quantity } = docSnap.data();
+      setSearchResult(`${item} found with quantity: ${quantity}`);
+    } else {
+      setSearchResult(`${item} not found`);
+    }
+  };
+
   useEffect(() => {
     updateInventory();
   }, []);
@@ -110,7 +125,6 @@ export default function Home() {
             className="search-button"
             onClick={() => {
               searchItem(searchItemName);
-              handleClose();
             }}
           >
             Search
@@ -139,7 +153,7 @@ export default function Home() {
             />
             <Button
               variant="contained"
-              color="#006400"
+              color="primary"
               onClick={() => {
                 addItem(itemName);
                 setItemName('');
