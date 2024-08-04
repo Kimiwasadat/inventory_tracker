@@ -139,7 +139,7 @@ export default function Home() {
             />
             <Button
               variant="contained"
-              color="primary"
+              color="#006400"
               onClick={() => {
                 addItem(itemName);
                 setItemName('');
